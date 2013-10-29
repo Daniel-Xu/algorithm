@@ -3,12 +3,12 @@ all: c_insertion_sort
 CC = gcc
 CFLAGS = -Wall -g
 
-SRC = insertion_sort.c main.c
+SRC = c_insertion_sort.c main.c
 OBJ = $(addsuffix .o, $(basename $(SRC)))
-DEPS =$(addsuffix .h. $(basename $(filter-out main.c $(SRC)))) 
+DEPS =$(addsuffix .h, $(basename $(filter-out main.c, $(SRC)))) 
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c $< 
+	$(CC) $(CFLAGS) -c -o $@ $< 
 
 c_insertion_sort: $(OBJ)
 	$(CC) -o $@ $(CFLAGS) $(OBJ)
@@ -17,4 +17,6 @@ c_insertion_sort: $(OBJ)
 .PHONY: clean
 clean:
 	rm -rf *o hello
+	rm c_insertion_sort
+
 
