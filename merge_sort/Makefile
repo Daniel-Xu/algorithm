@@ -1,22 +1,22 @@
-all: c_insertion_sort
+all: merge
 
 CC = gcc
 CFLAGS = -Wall -g
 
-SRC = c_insertion_sort.c main.c
+SRC = merge_sort.c main.c
 OBJ = $(addsuffix .o, $(basename $(SRC)))
 DEPS =$(addsuffix .h, $(basename $(filter-out main.c, $(SRC)))) 
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $< 
 
-c_insertion_sort: $(OBJ)
+merge: $(OBJ)
 	$(CC) -o $@ $(CFLAGS) $(OBJ)
 
 
 .PHONY: clean
 clean:
 	rm -rf *o 
-	rm c_insertion_sort
+	rm merge
 
 
