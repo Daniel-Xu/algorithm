@@ -60,6 +60,18 @@ void in_order(link t, void (*visit)(link))
   in_order(t->right, visit);
 }
 
+int depth(link t)
+{
+  int dl, dr;
+  if(!t)
+    return 0;
+
+  dl = depth(t->left);
+  dr = depth(t->right);
+
+  return 1 + ((dl>dr)?dl:dr);
+}
+
 int node_num(link t)
 {
   if(!t)

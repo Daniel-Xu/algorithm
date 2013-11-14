@@ -25,7 +25,9 @@ int main(int argc, char const *argv[])
   
   printf("================node number==============\n");
   printf("%d\n", node_num(t));
+  printf("\n");
 
+  printf("the depth of node is: %d\n", depth(t));
   printf("\n");
 
   destroy(t);

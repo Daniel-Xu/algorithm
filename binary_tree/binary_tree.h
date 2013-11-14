@@ -15,6 +15,7 @@ void pre_order(link t, void (*visit)(link));
 void in_order(link t, void (*visit)(link));
 int node_num(link t);
 void destroy(link t);
+int depth(link t);
 #endif /* end of include guard: BINARY_TREE_H_ZOTJNHAX */
 
 
