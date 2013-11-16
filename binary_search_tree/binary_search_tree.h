@@ -3,9 +3,9 @@
 
 typedef struct node{ 
   int val;
-  struct node parent;
-  struct node left;
-  struct node right;
+  //struct node parent;
+  struct node *left;
+  struct node *right;
 }node, *link;
 
 

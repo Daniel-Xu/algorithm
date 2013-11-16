@@ -5,16 +5,16 @@ static link make_node(int val)
 {
   link p = malloc(sizeof(node));
   p->val = val;
-  p->left = p->right = NULL:
-  p->parent = NULL;
+  p->left = p->right = NULL;
+  /*p->parent = NULL;*/
 
   return p;
 }
 
-link search(link t, int val)
-{
+/*link search(link t, int val)*/
+/*{*/
    
-}
+/*}*/
 
 //recursive version
 link insert(link t, int val)
@@ -22,17 +22,18 @@ link insert(link t, int val)
   if(!t)
     return make_node(val);
 
-  if(key > t->val) {
+  if(val > t->val) {
     t->right = insert(t->right, val);
-    t->right->parent = t;
+    /*t->right->parent = t;*/
   } else {
     t->left = insert(t->left, val);
-    t->left->parent = t;
+    /*t->left->parent = t;*/
   }
   
   return t;
 }
 
+/* parent 
 //minimum
 link tree_mininum(link t)
 {
@@ -63,4 +64,4 @@ link delete(link t, int val)
 {
 
 }
-
+*/
