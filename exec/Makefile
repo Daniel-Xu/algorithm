@@ -7,7 +7,7 @@ SRC = $(tg)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
 DEPS =$(addsuffix .h, $(basename $(filter-out main.c, $(SRC)))) 
 
-%.o: %.c $(DEPS)
+%.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $< 
 
 app: $(OBJ)
