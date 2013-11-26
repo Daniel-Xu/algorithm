@@ -41,6 +41,22 @@ link init(int a[], int n)
   return head;
 }
 
+//recursive version
+//we can use a return parameter
+void findLastKRecurse(link a, int k, link* pos) 
+{
+  //static is also very useful in this situation
+  static int i = k;
+  if(a == NULL)
+    return;
+
+  findLastKRecurse(a->next, k, pos);
+  if(i == 1) 
+    *pos = a;
+  --i;
+}
+
+
 link findLastK(link a, int k)
 {
   if ( a == NULL || k <= 0)
@@ -68,10 +84,14 @@ int main(int argc, char const *argv[])
   print_link(head);
   
   int k;
+  link p;
   cout << "please input the length you want" << endl;
   cin >> k;
-  link dst = findLastK(head, k);
+  //link dst = findLastK(head, k);
+  findLastKRecurse(head, k, &p);
+
   cout << "the result is: " << endl;
-  print_link(dst);
+  //print_link(dst);
+  print_link(p);
   return 0;
 }
