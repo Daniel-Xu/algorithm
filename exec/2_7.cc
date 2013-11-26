@@ -109,11 +109,12 @@ bool isPalindromeRecurse(link a, int len, link *next)
 int main(int argc, char const *argv[])
 {
   
-  int a[] = {2, 2,2, 1};
+  int a[] = {1, 2,2, 1};
   link head = init(a,N);
   cout << "the link is:" << endl;
   print_link(head);
 
+  // you should allocate space for what double pointer points to
   link next;
   if (isPalindromeRecurse(head, N, &next))
     cout << "yes" << endl;
