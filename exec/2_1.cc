@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -45,6 +46,8 @@ link init(int a[], int n)
   return head;
 }
 
+//no buffer can use
+//the complexity is O(n*n)
 link removeRepition(link a)
 {
   link p = a;
@@ -70,6 +73,35 @@ link removeRepition(link a)
   return a;
 }
 
+//hash table
+//the complexity is O(N)
+link removeRepition2(link a)
+{
+  link p = a;
+  link q = a->next;
+
+  //pair key value
+  pair<int, bool> first_element (p->val, true);
+  unordered_map<int, bool> hash;
+  hash.insert(first_element);
+     
+  while(q != NULL) {
+    if(hash.find(q->val) != hash.end()) {
+      //find it
+      p->next = q->next;
+      delete q;
+      q = p->next;
+    } else {
+      hash.insert(make_pair<int, bool>(q->val, true));
+      p = q;
+      q = q->next;
+    }
+  }
+
+  return a;
+}
+
+
 int main(int argc, char const *argv[])
 {
   int a[] = {2,  3, 2, 4, 2};
@@ -78,7 +110,7 @@ int main(int argc, char const *argv[])
   print_link(head);
 
   cout << "delete repitition: " << endl;
-  print_link(removeRepition(head));
+  print_link(removeRepition2(head));
   
   return 0;
 }
