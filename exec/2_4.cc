@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-#define N 9
+#define N 10
 
 
 typedef struct node {
@@ -81,18 +81,54 @@ link partition(link a, int x)
 
 }
 
+//better version
+
+link partition2(link a, int x)
+{
+  link less = NULL;
+  link more = NULL;
+
+  link p = a;
+  while(p != NULL) {
+    link q = p->next;
+    if(p->val < x) {
+      p->next = less;
+      less = p;
+    } else {
+      p->next = more; 
+      more = p;
+    }
+    //let p go next
+    p = q;
+  }
+
+  //if all the element are larger than x
+  if(less == NULL)
+    return more;
+
+  link head = less;
+  //find last one of less;
+  while(less->next != NULL) {
+    less = less->next;
+  }
+
+  less->next = more;
+
+  return head;
+}
+
 
 int main(int argc, char const *argv[])
 {
   
-  int a[] = {1, 2, 3, 7, 0, 9, 2, 1, 8};
+  int a[] = {5, 1, 2, 3, 7, 0, 9, 2, 1, 8};
   link head = init(a,N);
   cout << "the link is:" << endl;
   print_link(head);
 
   cout << "after inserting" <<endl;
 
-  print_link(partition(head, 6));
+  print_link(partition2(head, 6));
 
   return 0;
 }
