@@ -1,5 +1,4 @@
 #include <iostream>
-#include <unordered_map>
 
 using namespace std;
 
@@ -57,6 +56,7 @@ link make_node(int val)
 }
 
 
+//this is a normal version
 link add2(link a, link b)
 {
   link p = a;
@@ -116,6 +116,11 @@ link add2(link a, link b)
 
   return new_link;
 }
+
+
+
+// as we all see, normal version is too messy
+// so we need to implement recusive version
 
 
 int main(int argc, char const *argv[])
