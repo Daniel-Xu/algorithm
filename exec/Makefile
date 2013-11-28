@@ -1,7 +1,7 @@
 all: app
 
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -g -Wall 
 
 SRC = $(tg)
 OBJ = $(addsuffix .o, $(basename $(SRC)))
@@ -18,5 +18,6 @@ app: $(OBJ)
 clean:
 	rm -rf *o
 	rm app
+	rm -rf app.*
 
 

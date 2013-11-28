@@ -4,7 +4,7 @@
 using namespace std;
 
 #define N 5
-#define M 4
+#define M 5
 
 typedef struct node {
   int val;
@@ -67,6 +67,8 @@ link add2(link a, link b)
   int sum = 0;
   int current_v = 0;
   int next_v = 0;
+
+  //next v can only be 0 or 1
   while(p != NULL && q != NULL){
     sum = p->val + q->val + next_v;
     current_v = sum%10;
@@ -83,17 +85,31 @@ link add2(link a, link b)
     q = q->next;
   }
 
+  //new method
 
-  //here exist some logic ignorance
-  if (p != NULL) {
+  while (p != NULL) {
     sum = p->val + next_v;
-    current_p->next = make_node(sum);
-    current_p->next->next = p->next;
-  } else if ( q != NULL) {
+    next_v = sum/10;
+    current_v = sum%10;
+
+    current_p->next = make_node(current_v);
+
+    current_p = current_p->next;
+    p = p->next;
+  }
+
+  while (q != NULL) {
     sum = q->val + next_v;
-    current_p->next = make_node(sum);
-    current_p->next->next = q->next;
-  } else {
+    next_v = sum/10;
+    current_v = sum%10;
+
+    current_p->next = make_node(current_v);
+
+    current_p = current_p->next;
+    q = q->next;
+  }
+
+  if (p == NULL && q == NULL && next_v != 0) {
     current_p->next = make_node(next_v);
     current_p->next->next = NULL;
   }
@@ -104,8 +120,8 @@ link add2(link a, link b)
 
 int main(int argc, char const *argv[])
 {
-  int a[] = {2, 3, 2, 4, 9};
-  int b[] = {3, 5, 10, 6};
+  int a[] = {2, 3, 2, 4, 1};
+  int b[] = {3, 5, 10, 6, 2};
   link a_p  = init(a, N);
   link b_p = init(b, M);
 
