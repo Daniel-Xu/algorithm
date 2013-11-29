@@ -75,12 +75,6 @@ link circleStart(link head)
   return head;
 }
 
-
-//there's a tricky method, I should know about it.
-
-
-
-
 int main(int argc, char const *argv[])
 {
   int a[] = {2, 3, 2, 4, 1};
