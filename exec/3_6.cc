@@ -2,6 +2,7 @@
 #include <stack>
 #include <ctime>
 #include <cstdlib>
+#include <queue>
 
 using namespace std;
 stack<int> TwoStackSort(stack<int> s)
@@ -22,6 +23,22 @@ stack<int> TwoStackSort(stack<int> s)
   return t;
 }
 
+//priority queue usage
+void Qsort(stack<int> &s)
+{
+  //how to use this
+  priority_queue< int, vector<int>, greater<int> > q;
+
+  while( !s.empty()){
+    q.push(s.top());
+    s.pop();
+  }
+
+  while(!q.empty()) {
+    s.push(q.top());
+    q.pop();
+  }
+}
 
 int main(int argc, char const *argv[])
 {
@@ -34,7 +51,8 @@ int main(int argc, char const *argv[])
     src.push(rand()%100);
   }  
 
-  src = TwoStackSort(src);
+  //src = TwoStackSort(src);
+  Qsort(src);
 
   cout << "after sorting" <<endl;
   while(!src.empty()){
