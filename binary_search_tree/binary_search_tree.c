@@ -1,4 +1,5 @@
 #include "binary_search_tree.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static link make_node(int val)
@@ -13,7 +14,7 @@ static link make_node(int val)
 tree *new_tree(void)
 {
     tree *bst = malloc(sizeof(tree));
-    bst->root = null;
+    bst->root = NULL;
     return bst;
 }
 
@@ -21,12 +22,12 @@ void bst_insert(tree *bst, int i)
 {
     link n = make_node(i);
 
-    link parent = NULL;
+    link c_parent = NULL;
     link current = bst->root;
     
     //move to the deepest node
     while(current != NULL) {
-        parent = current; 
+        c_parent = current; 
         if (current->val > i) {
             current = current->left;
         } else {
@@ -35,16 +36,16 @@ void bst_insert(tree *bst, int i)
     }
 
     //point to parent
-    n.parent = parent;
+    n->parent = c_parent;
     
 
     //parent decides how to point to child
-    if(parent == NULL) {
-        bst.root = n; 
-    } else if(parent->val > n->val){
-        parent->right = n;
+    if(c_parent == NULL) {
+        bst->root = n; 
+    } else if(c_parent->val > n->val){
+        c_parent->left = n;
     } else {
-        parent->left = n; 
+        c_parent->right = n; 
     }
 }
 
@@ -64,7 +65,7 @@ void transplant_subtree(tree *bst, link u, link v)
     //make sure v can point to parent
     //make sure that we consider that v can be null
     if(v != NULL) {
-        v.parent = u.parent; 
+        v->parent = u->parent; 
     }
 }
 
@@ -81,7 +82,7 @@ void bst_delete(tree *bst, int i)
         //but the situation is the same because in transplant we consider
         //the situation v is null. 
         transplant_subtree(bst, s, s->right);
-    } else if(s->right == NUll) {
+    } else if(s->right == NULL) {
         // s->left != NULL, and s->right == NULL
         transplant_subtree(bst, s, s->left);
     } else {
@@ -104,6 +105,8 @@ void bst_delete(tree *bst, int i)
         successor->left = s->left;
         successor->left->parent = successor;
     }
+
+    free(s);
 }
 
 //node successor
@@ -124,7 +127,7 @@ link bst_successor(link x)
 }
 
 //minimum
-link tree_mininum(link x)
+link bst_minimum(link x)
 {
     while(x->left != NULL) {
         x = x->left;
@@ -133,7 +136,7 @@ link tree_mininum(link x)
 }
 
 //maximum
-link tree_maximum(link x)
+link bst_maximum(link x)
 {
     while(x->right != NULL)
         x = x->right;
@@ -154,4 +157,27 @@ link bst_search(tree *bst, int i)
     }
 
     return current;
+}
+
+
+//pre order
+void pretty_print(link p, int indent)
+{
+    if(p != NULL) {
+        if(indent) {
+            for (int i = 0; i < indent; ++i)
+            {
+                printf(" ");
+            }
+        }
+        printf("%d\n", p->val);
+        printf("\n");
+        if(p->left) {
+            pretty_print(p->left, indent-1);
+        }
+        
+        if(p->right) {
+            pretty_print(p->right, indent+1);
+        }
+    }
 }
