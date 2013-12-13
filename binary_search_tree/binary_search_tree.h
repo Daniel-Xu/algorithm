@@ -3,10 +3,14 @@
 
 typedef struct node{ 
   int val;
-  //struct node parent;
+  struct node *parent;
   struct node *left;
   struct node *right;
 }node, *link;
+
+typedef struct tree {
+    link root;
+}tree;
 
 
 #endif /* end of include guard: BINARY_SEARCH_TREE_H_BFKVTIXN */
