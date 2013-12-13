@@ -21,5 +21,8 @@ int main(int argc, char const *argv[])
     link max = bst_maximum(bst->root);
 
     printf("min is: %d, max is:  %d\n", min->val, max->val);
-
+    
+    
+    bst_delete(bst, 2);
+    pretty_print(bst->root, 10);
 }
