@@ -89,7 +89,7 @@ void bst_delete(tree *bst, int i)
         // and the successor is in the right child subtree, of course 
         // the successor has no left child, but could has right subtree.
         
-        link successor = bst_successor(bst, i);
+        link successor = bst_minimum(s->right);
 
         //successor is the direct right child of it.
         if(s->right != successor) {
@@ -106,28 +106,52 @@ void bst_delete(tree *bst, int i)
     }
 }
 
+//node successor
+link bst_successor(link x)
+{
+    if(x->right != NULL) {
+        return bst_minimum(x->right);
+    }
 
+    //no right child, just find the parent
+    link y = x->parent;
+    while (y != NULL && x == y->right) {
+        x = y; 
+        y = y->parent;
+    }
+
+    return y;
+}
 
 //minimum
-link tree_mininum(link t)
+link tree_mininum(link x)
 {
-
+    while(x->left != NULL) {
+        x = x->left;
+    }
+    return x;
 }
 
 //maximum
-link tree_maximum(link t)
+link tree_maximum(link x)
 {
+    while(x->right != NULL)
+        x = x->right;
 
+    return x;
 }
 
-//like sorted array, which one is the next one.
-link node_successor(link t)
+//search
+link bst_search(tree *bst, int i)
 {
+    link current = bst->root;
+    while(current != NULL && i != current->val ){
+        if(current->val > i) {
+            current = current->left; 
+        } else {
+            current = current->right; 
+        }
+    }
 
-}
-
-//delete
-link delete(link t, int val)
-{
-
+    return current;
 }
