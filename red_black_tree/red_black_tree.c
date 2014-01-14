@@ -70,8 +70,49 @@ void right_rotation(tree *rb, link x) {
     y.right = x;
 }
 
+//search node in red_black_tree
+link rb_search_node(tree *rb, int n) {
+    link cur = rb->root;
+
+    while(cur != NULL && cur->val != n) {
+        if(cur->val > n) 
+            cur = cur->left;
+        else
+            cur = cur->right;
+    }
+
+    return cur
+}
 
 
+//you should know the basic insertion will be like binary search tree
+//but it may violate the properties of reb black tree, so after insertion, 
+//you need to fix up the properties
+void rb_insertion(tree *rb, int n) {
+    // insertion
+
+
+    //fix up process
+}
+
+void rb_insertion_fix(tree *rb, int x) {
+
+}
+
+
+
+//
+void rb_deletion(tree *rb, int n){
+    //deletion process
+
+
+
+    //fix up process
+}
+
+void rb_deletion_fix(tree *rb, int n){
+
+}
 
 
 //pre order
