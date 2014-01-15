@@ -5,17 +5,21 @@
 int main(int argc, char const *argv[])
 {
     tree *rb = new_tree();
-    int a[] = {6, 2, 10, 3, 1, 7, 8, 9, 4};
-    for (int i = 0; i < 9 ; ++i)
+    int a[] = {6, 2, 10, 3, 1, 7, 8, 9};
+    /*int a[] = {6, 2, 10, 3, 1, 7};*/
+    for (int i = 0; i < 8; ++i)
     {
         rb_insertion(rb, a[i]);
+        pretty_print(rb->root, 1); 
+        printf("+++++++++++++++++++++\n");
     }
     /*printf("%d\n", sizeof(rb));*/
     printf("root is: \n");
     printf("%d\n", rb->root->val);
+    pretty_print(rb->root, 1); 
 
     /*printf("post order result is: \n");*/
-    pretty_print(rb->root, 10);
+    /*pretty_print(rb->root, 10);*/
 
     /*link min = rb_minimum(rb->root);*/
     /*link max = rb_maximum(rb->root);*/

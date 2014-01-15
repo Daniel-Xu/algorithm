@@ -20,6 +20,7 @@ typedef struct tree {
 tree *new_tree(void);
 void pretty_print(link p, int indent);
 
+void rb_insertion(tree *rb, int n);
 void rb_insertion_fix(tree *rb, link x);
 
 

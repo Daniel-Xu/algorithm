@@ -112,6 +112,7 @@ void rb_insertion(tree *rb, int n)
         c_parent->right = node;
     }
 
+    node->parent = c_parent;
     node->color = RED;    
      
     //fix up process
@@ -129,8 +130,8 @@ void rb_insertion_fix(tree *rb, link x)
 {
      
     //curent node's parent
-    link cparent = x->parent;
-    while(cparent != NULL && cparent->color == RED) {
+    link cparent;
+    while((cparent=x->parent) && cparent->color == RED) {
         //left side, if it can come in here, we can ensure that x.p.p exists, because 
         //otherwise it will violate the loop invariant: properties of rbt
         
@@ -138,6 +139,8 @@ void rb_insertion_fix(tree *rb, link x)
         //the comparison with gparent and cparent is that we can ensure that gparent is black node, kinda like we find the root
         if(cparent == gparent->left) {
             link uncle = gparent->right;
+            
+            //when uncle is null, it's the same with black node
             if(uncle && uncle->color  == RED){
                 //recolor and move the bubble up 
                 //recolor aims at perserving the black height
@@ -203,14 +206,15 @@ void rb_deletion_fix(tree *rb, int n){
 void pretty_print(link p, int indent)
 {
     if(p != NULL) {
-        if(indent) {
-            for (int i = 0; i < indent; ++i)
-            {
-                printf(" ");
-            }
-        }
+        /*if(indent) {*/
+            /*for (int i = 0; i < indent; ++i)*/
+            /*{*/
+                /*printf(" ");*/
+            /*}*/
+        /*}*/
         printf("%d\n", p->val);
-        printf("\n");
+        printf("color is: %s\n", (p->color == 1? "black":"red"));
+        /*printf("\n");*/
         if(p->left) {
             pretty_print(p->left, indent-1);
         }
