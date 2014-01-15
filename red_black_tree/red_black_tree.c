@@ -90,13 +90,95 @@ link rb_search_node(tree *rb, int n) {
 //you need to fix up the properties
 void rb_insertion(tree *rb, int n) {
     // insertion
+    link node = make_node(n);
 
+    link c_parent = NULL;
+    link current = rb->root;
 
+    while(current != NULL) {
+        c_parent = current;
+        if(current->val > n)
+            current = current->left;
+        else
+            current = current->right;
+    }
+
+    if(c_parent == NULL) {
+        rb->root = node;
+    } else if(c_parent->val > n ) {
+        c_parent->left = node;
+    } else {
+        c_parent->right = node;
+    }
+
+    node->color = RED;    
+     
     //fix up process
+    rb_insertion_fix(rb, inserted_node)
 }
 
-void rb_insertion_fix(tree *rb, int x) {
+//1.
+//six situations
+//z.p is red, so z.p is not root, z.p.p exists
+//in all case, z.p.p is black
+//since violation only between z.p and z
 
+//2. the reason to distinguish uncle's color is to perservet the black height 
+void rb_insertion_fix(tree *rb, link x) {
+     
+    //curent node's parent
+    link cparent = x->parent;
+    while(cparent != NULL && cparent->color == RED) {
+        //left side, if it can come in here, we can ensure that x.p.p exists, because 
+        //otherwise it will violate the loop invariant: properties of rbt
+        
+        link gparent = x->parent->parent;
+        //the comparison with gparent and cparent is that we can ensure that gparent is black node, kinda like we find the root
+        if(cparent == gparent->left) {
+            link uncle = gparent->right;
+            if(uncle && uncle->color  == RED){
+                //recolor and move the bubble up 
+                //recolor aims at perserving the black height
+                cparent->color = uncle->color = BLACK;
+                gparent->color = RED;
+                x = gparent; 
+            } else {
+                if(x == cparent->right){
+                    //case 2, right branch, change it to case3, left branch
+                    x = cparent;
+                    left_rotation(cparent);
+                } else {
+                    //case3 , left branch
+                    cparent->color = BLACK;
+                    gparent->color = RED;
+                    right_rotation(gparent);
+                }  
+            }
+        } else {
+            //the symetric
+            link uncle = gparent->left;
+            if(uncle && uncle->color  == RED){
+                //recolor and move the bubble up 
+                //recolor aims at perserving the black height
+                cparent->color = uncle->color = BLACK;
+                gparent->color = RED;
+                x = gparent; 
+            } else {
+                if(x == cparent->left){
+                    //case 2, right branch, change it to case3, left branch
+                    x = cparent;
+                    right_rotation(cparent);
+                } else {
+                    //case3 , left branch
+                    cparent->color = BLACK;
+                    gparent->color = RED;
+                    left_rotation(gparent);
+                }  
+            }
+        }
+    }
+
+    rb->root->color = BlACK
 }
 
 
