@@ -186,13 +186,31 @@ void rb_insertion_fix(tree *rb, link x)
     rb->root->color = BLACK;
 }
 
+//transplant
+//this function is very simple, just decide the direction and change the pointer
+void transplant_subtree(tree *bst, link u, link v)
+{
+    // u is root
+    if(u->parent == NULL) {
+        bst->root = v;        
+    } else if( u->parent->left == u){
+        //u is left child
+        u->parent->left = v;
+    } else {
+        //u is right child 
+        u->parent->right = v;
+    }
 
+    //make sure v can point to parent
+    //make sure that we consider that v can be null
+    if(v != NULL) {
+        v->parent = u->parent; 
+    }
+}
 
 //
 void rb_deletion(tree *rb, int n){
     //deletion process
-
-
 
     //fix up process
 }
