@@ -24,50 +24,50 @@ tree *new_tree(void)
 //remember that the root's parent will be set null in insert
 //first: x is the root 
 //second: the child is nil, because nil.parent will cause segf
-void left_rotation(tree *rb, link x) {
+static void left_rotation(tree *rb, link x) {
     //we aim at left rotation, so x.right must exist
-    link y  = x.right;
+    link y  = x->right;
 
     //handle y's parent and y 
-    y.parent = x.parent;
-    if (x.parent == NULL)
+    y->parent = x->parent;
+    if (x->parent == NULL)
         rb->root = y;
-    else if(x.parent.left == x)
-        x.parent.left = y;
+    else if(x->parent->left == x)
+        x->parent->left = y;
     else 
-        x.parent.right = y;
+        x->parent->right = y;
 
     //handle y.left and x
-    x.right = y.left;
-    if(y.left != NULL)
-        y.left.parent = x;
+    x->right = y->left;
+    if(y->left != NULL)
+        y->left->parent = x;
 
     //handle x.parent and y
-    x.parent = y;
-    y.left = x;
+    x->parent = y;
+    y->left = x;
 }
 
-void right_rotation(tree *rb, link x) { 
-    link y = x.left;
+static void right_rotation(tree *rb, link x) { 
+    link y = x->left;
 
     //handle y and x.parent
-    y.parent = x.parent;
-    if(x.parent == NULL)
+    y->parent = x->parent;
+    if(x->parent == NULL)
         rb->root = y;
-    else if(x.parent.left == x)
-        x.parent.left = y;
+    else if(x->parent->left == x)
+        x->parent->left = y;
     else
-        x.parent.right = y;
+        x->parent->right = y;
 
         
     //handle the x.left with y.right
-    x.left = y.right;
-    if(y.right != NULL)
-        y.right.parent = x;
+    x->left = y->right;
+    if(y->right != NULL)
+        y->right->parent = x;
 
     //handle the x.parent with y
-    x.parent = y;
-    y.right = x;
+    x->parent = y;
+    y->right = x;
 }
 
 //search node in red_black_tree
@@ -81,14 +81,15 @@ link rb_search_node(tree *rb, int n) {
             cur = cur->right;
     }
 
-    return cur
+    return cur;
 }
 
 
 //you should know the basic insertion will be like binary search tree
 //but it may violate the properties of reb black tree, so after insertion, 
 //you need to fix up the properties
-void rb_insertion(tree *rb, int n) {
+void rb_insertion(tree *rb, int n) 
+{
     // insertion
     link node = make_node(n);
 
@@ -114,7 +115,7 @@ void rb_insertion(tree *rb, int n) {
     node->color = RED;    
      
     //fix up process
-    rb_insertion_fix(rb, inserted_node)
+    rb_insertion_fix(rb, node);
 }
 
 //1.
@@ -124,7 +125,8 @@ void rb_insertion(tree *rb, int n) {
 //since violation only between z.p and z
 
 //2. the reason to distinguish uncle's color is to perservet the black height 
-void rb_insertion_fix(tree *rb, link x) {
+void rb_insertion_fix(tree *rb, link x) 
+{
      
     //curent node's parent
     link cparent = x->parent;
@@ -146,12 +148,12 @@ void rb_insertion_fix(tree *rb, link x) {
                 if(x == cparent->right){
                     //case 2, right branch, change it to case3, left branch
                     x = cparent;
-                    left_rotation(cparent);
+                    left_rotation(rb, cparent);
                 } else {
                     //case3 , left branch
                     cparent->color = BLACK;
                     gparent->color = RED;
-                    right_rotation(gparent);
+                    right_rotation(rb, gparent);
                 }  
             }
         } else {
@@ -167,18 +169,18 @@ void rb_insertion_fix(tree *rb, link x) {
                 if(x == cparent->left){
                     //case 2, right branch, change it to case3, left branch
                     x = cparent;
-                    right_rotation(cparent);
+                    right_rotation(rb, cparent);
                 } else {
                     //case3 , left branch
                     cparent->color = BLACK;
                     gparent->color = RED;
-                    left_rotation(gparent);
+                    left_rotation(rb, gparent);
                 }  
             }
         }
     }
 
-    rb->root->color = BlACK
+    rb->root->color = BLACK;
 }
 
 
