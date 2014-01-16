@@ -188,11 +188,11 @@ void rb_insertion_fix(tree *rb, link x)
 
 //transplant
 //this function is very simple, just decide the direction and change the pointer
-void transplant_subtree(tree *bst, link u, link v)
+void transplant_subtree(tree *rb, link u, link v)
 {
     // u is root
     if(u->parent == NULL) {
-        bst->root = v;        
+        rb->root = v;        
     } else if( u->parent->left == u){
         //u is left child
         u->parent->left = v;
@@ -208,11 +208,57 @@ void transplant_subtree(tree *bst, link u, link v)
     }
 }
 
-//
-void rb_deletion(tree *rb, int n){
-    //deletion process
 
+link rb_minimum(link k)
+{
+    while(x->left) {
+        x = x->left;
+    }
+    return x;
+}
+
+//deletion are like the binary search tree deletion,
+//but you should record something
+
+//first you need to record the moved node within tree or deleted node 's color
+//second, you need to record the node as replacement to fix from it
+void rb_deletion(tree *rb, int n){
+    link node = rb_search_node(rb, n);
+    enum color_type changed_color = node->color;
+    link need_to_fix = NULL;
+
+    //deletion process
+    if(node->left){
+        need_to_fix = node->right;
+        transplant(rb, node, node->right);
+    }else if(node->right){
+        need_to_fix = node->left;
+        transplant(rb, node, node->left);
+    }else{
+        link successor = rb_minimum(node->right);
+        changed_color = successor->color;
+        need_to_fix = successor->right;
+
+        //direct right node is not the successor 
+        if(successor->parent != node) {
+            transplant(rb, successor, successor->right);
+            successor->right = node->right;
+            successor->right->parent = successor;
+        }
+
+        transplant(rb, node, successor);
+        successor->left = node->left;
+        node->left->parent = successor;
+        //don't forget to change the color of successor to deleted node's color
+        //so the successor will not violate the properties
+        //but, the moved node maybe do.
+        successor->color = node->color; 
+    }
+
+    free(node);
     //fix up process
+    if(changed_color == BLACK)
+        rb_deletion_fix(rb, need_to_fix);
 }
 
 void rb_deletion_fix(tree *rb, int n){
