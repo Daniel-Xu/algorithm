@@ -289,6 +289,22 @@ void rb_deletion_fix(tree *rb, link x){
                 if(w->left->color == w->right->color == BLACK) {
                     w->color = RED;
                     x = x->parent;
+                } else {
+                    //case3 w's left child is red, right is black
+                    if(w->right->color == BLACK){
+                        w->left->color = BLACK;
+                        w->color = RED;
+                        right_rotation(rb, w);
+                    }
+
+                    //case4 two red or left is black right is red
+                    //change the x->parent's color with w 
+                    w->color = x->parent->color;
+                    x->parent->color = BLACK;
+                    w->right->color = BLACK;
+                    left_rotation(rb, x->parent);
+                    // this just to break the while , to jump out the while
+                    x = rb->root;
                 }
             }
         } else {
@@ -296,6 +312,8 @@ void rb_deletion_fix(tree *rb, link x){
         }
 
     }
+    //if x's color is not black, just change it to black, and the black height will remain no violation
+    x->color = BLACK;
     
 }
 
