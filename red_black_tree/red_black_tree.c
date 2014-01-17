@@ -283,6 +283,13 @@ void rb_deletion_fix(tree *rb, link x){
                 w->color = BLACK;// Black is x->parent's color
                 x->parent->color = RED;
                 left_rotation(rb, x->parent);
+            } else {
+                //case 2, now w is black, we should decide its two children's colors
+                //the key thing of this case is bubble up x's double color to it's parent
+                if(w->left->color == w->right->color == BLACK) {
+                    w->color = RED;
+                    x = x->parent;
+                }
             }
         } else {
         
