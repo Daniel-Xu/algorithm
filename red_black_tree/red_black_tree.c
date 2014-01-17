@@ -270,6 +270,26 @@ void rb_deletion(tree *rb, int n){
 
 void rb_deletion_fix(tree *rb, link x){
 
+    /*enum color_type tmp_color = node->color;*/
+    while(x != rb->root && x->color == BLACK){
+        //symetric pairs
+        //x's sibling will never be T.nil
+        link w = x->parent->right;
+        if(x->parent->left == x) {
+
+            if(w->color == RED) {
+                //case1 x's sibling w is red, change it to case 2, 3, 4
+                //change the x->parent color with w, and left_rotation x->parent
+                w->color = BLACK;// Black is x->parent's color
+                x->parent->color = RED;
+                left_rotation(rb, x->parent);
+            }
+        } else {
+        
+        }
+
+    }
+    
 }
 
 //pre order
