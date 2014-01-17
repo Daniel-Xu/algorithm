@@ -261,10 +261,16 @@ void rb_deletion(tree *rb, int n){
         rb_deletion_fix(rb, need_to_fix);
 }
 
-void rb_deletion_fix(tree *rb, int n){
+
+
+//three properties may be violated
+//1. if deleted node is root, then red node may be root.
+//2. there will be two adjacent red node if deleted node has two children
+//3. when move the succesor's subtree, it's black node may be shorter
+
+void rb_deletion_fix(tree *rb, link x){
 
 }
-
 
 //pre order
 void pretty_print(link p, int indent)

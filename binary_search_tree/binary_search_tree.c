@@ -92,7 +92,7 @@ void bst_delete(tree *bst, int i)
         
         link successor = bst_minimum(s->right);
 
-        //successor is the direct right child of it.
+        //successor is  not the direct right child of it.
         if(s->right != successor) {
             transplant_subtree(bst, successor, successor->right);         
 
