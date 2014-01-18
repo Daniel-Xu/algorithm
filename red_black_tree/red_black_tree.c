@@ -226,25 +226,34 @@ void rb_deletion(tree *rb, int n)
 {
     link node = rb_search_node(rb, n);
     enum color_type changed_color = node->color;
-    link need_to_fix = NULL;
+    link need_to_fix = NULL, x_parent = NULL;
+    link old_parent = NULL;
 
     //deletion process
-    if(node->left){
+    if(node->left == NULL){
         need_to_fix = node->right;
+        x_parent = (need_to_fix == NULL)?node->parent:need_to_fix->parent;
         transplant_subtree(rb, node, node->right);
-    }else if(node->right){
+    }else if(node->right == NULL){
         need_to_fix = node->left;
+        x_parent = (need_to_fix == NULL)?node->parent:need_to_fix->parent;
         transplant_subtree(rb, node, node->left);
     }else{
         link successor = rb_minimum(node->right);
         changed_color = successor->color;
         need_to_fix = successor->right;
+        //because T.nil can not backtrace its parents, so we need to do this
+        //by pass a parent pointer
+        /*old_parent = &(successor->parent);*/
+        old_parent = successor->parent;
+        x_parent = successor;
 
         //direct right node is not the successor 
         if(successor->parent != node) {
             transplant_subtree(rb, successor, successor->right);
             successor->right = node->right;
             successor->right->parent = successor;
+            x_parent = old_parent;
         }
 
         transplant_subtree(rb, node, successor);
@@ -258,8 +267,9 @@ void rb_deletion(tree *rb, int n)
 
     free(node);
     //fix up process
-    if(changed_color == BLACK)
-        rb_deletion_fix(rb, need_to_fix);
+    if(changed_color == BLACK){
+        rb_deletion_fix(rb, need_to_fix, x_parent);
+    }
 }
 
 
@@ -269,66 +279,72 @@ void rb_deletion(tree *rb, int n)
 //2. there will be two adjacent red node if deleted node has two children
 //3. when move the succesor's subtree, it's black node may be shorter
 
-void rb_deletion_fix(tree *rb, link x)
+void rb_deletion_fix(tree *rb, link x, link x_parent)
 {
 
     /*enum color_type tmp_color = node->color;*/
-    while(x != rb->root && x->color == BLACK){
+    while(x != rb->root && (!x || x->color == BLACK)){
         //symetric pairs
         //x's sibling will never be T.nil
-        if(x->parent->left == x) {
-            link w = x->parent->right;
+        if(x_parent->left == x) {
+            link w = x_parent->right;
             if(w->color == RED) {
                 //case1 x's sibling w is red, change it to case 2, 3, 4
                 //change the x->parent color with w, and left_rotation x->parent
                 w->color = BLACK;// Black is x->parent's color
-                x->parent->color = RED;
-                left_rotation(rb, x->parent);
+                x_parent->color = RED;
+                left_rotation(rb, x_parent);
             } else {
                 //case 2, now w is black, we should decide its two children's colors
                 //the key thing of this case is bubble up x's double color to it's parent
-                if(w->left->color == w->right->color == BLACK) {
+                if((!w->left || w->left->color ) && (!w->right || w->right->color == BLACK)) {
                     w->color = RED;
-                    x = x->parent;
+                    x = x_parent;
+                    x_parent = x->parent;
                 } else {
                     //case3 w's left child is red, right is black
-                    if(w->right->color == BLACK){
+                    if(!w->right || w->right->color == BLACK){
                         w->left->color = BLACK;
                         w->color = RED;
                         right_rotation(rb, w);
+                        w = x_parent->right;
                     }
 
                     //case4 two red or left is black right is red
                     //change the x->parent's color with w 
-                    w->color = x->parent->color;
-                    x->parent->color = BLACK;
-                    w->right->color = BLACK;
-                    left_rotation(rb, x->parent);
+                    w->color = x_parent->color;
+                    x_parent->color = BLACK;
+                    if(w->right)
+                        w->right->color = BLACK;
+                    left_rotation(rb, x_parent);
                     // this just to break the while , to jump out the while
                     x = rb->root;
                 }
             }
         } else {
-            link w = x->parent->left;
+            link w = x_parent->left;
             if(w->color == RED){
                 w->color = BLACK;
-                x->parent->color = RED;
-                right_rotation(rb, x->parent);
+                x_parent->color = RED;
+                right_rotation(rb, x_parent);
             } else {
-                if(w->left->color == w->right->color == BLACK) {
+                if((!w->left || w->left->color) && (!w->right || w->right->color == BLACK)) {
                     w->color = RED;
-                    x = x->parent;
+                    x = x_parent;
+                    x_parent = x->parent;
                 } else {
-                    if(w->left->color == BLACK){
+                    if(!w->left || w->left->color == BLACK){
                         w->right->color = BLACK;
                         w->color = RED;
                         left_rotation(rb, w);
+                        w = x_parent->left;
                     }
                     
-                    w->color = x->parent->color;
-                    x->parent->color = BLACK;
-                    w->left->color = BLACK;
-                    right_rotation(rb, x->parent);
+                    w->color = x_parent->color;
+                    x_parent->color = BLACK;
+                    if(w->left)
+                        w->left->color = BLACK;
+                    right_rotation(rb, x_parent);
 
                     x = rb->root;
                 }
@@ -337,8 +353,8 @@ void rb_deletion_fix(tree *rb, link x)
         }
     }
     //if x's color is not black, just change it to black, and the black height will remain no violation
+    if(x)
     x->color = BLACK;
-    
 }
 
 //pre order
