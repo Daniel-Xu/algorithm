@@ -274,9 +274,8 @@ void rb_deletion_fix(tree *rb, link x){
     while(x != rb->root && x->color == BLACK){
         //symetric pairs
         //x's sibling will never be T.nil
-        link w = x->parent->right;
         if(x->parent->left == x) {
-
+            link w = x->parent->right;
             if(w->color == RED) {
                 //case1 x's sibling w is red, change it to case 2, 3, 4
                 //change the x->parent color with w, and left_rotation x->parent
@@ -308,9 +307,32 @@ void rb_deletion_fix(tree *rb, link x){
                 }
             }
         } else {
-        
-        }
+            link w = x->parent->left;
+            if(w->color == RED){
+                w->color = BLACK;
+                x->parent->color = RED;
+                right_rotation(rb, x->parent);
+            } else {
+                if(w->left->color == w->right->color == BLACK) {
+                    w->color = RED;
+                    x = x->parent;
+                } else {
+                    if(w->left->color == BLACK){
+                        w->right->color = BLACK;
+                        w->color = RED;
+                        left_rotation(rb, w);
+                    }
+                    
+                    w->color = x->parent->color;
+                    x->parent->color = BLACK;
+                    w->left->color = BLACK;
+                    right_rotation(rb, x->parent);
 
+                    x->rb->root;
+                }
+            }
+            
+        }
     }
     //if x's color is not black, just change it to black, and the black height will remain no violation
     x->color = BLACK;
