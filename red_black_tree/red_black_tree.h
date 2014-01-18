@@ -23,5 +23,9 @@ void pretty_print(link p, int indent);
 void rb_insertion(tree *rb, int n);
 void rb_insertion_fix(tree *rb, link x);
 
+void transplant_subtree(tree *rb, link u, link v);
+void rb_deletion(tree *rb, int n);
+void rb_deletion_fix(tree *rb, link x);
+
 
 #endif /* end of include guard: RED_BLACK_TREE_H_XEX90NU3RED_BLACK_TREE_H_XEX90NU3 */
