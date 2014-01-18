@@ -209,7 +209,7 @@ void transplant_subtree(tree *rb, link u, link v)
 }
 
 
-link rb_minimum(link k)
+static link rb_minimum(link x)
 {
     while(x->left) {
         x = x->left;
@@ -222,7 +222,8 @@ link rb_minimum(link k)
 
 //first you need to record the moved node within tree or deleted node 's color
 //second, you need to record the node as replacement to fix from it
-void rb_deletion(tree *rb, int n){
+void rb_deletion(tree *rb, int n)
+{
     link node = rb_search_node(rb, n);
     enum color_type changed_color = node->color;
     link need_to_fix = NULL;
@@ -230,10 +231,10 @@ void rb_deletion(tree *rb, int n){
     //deletion process
     if(node->left){
         need_to_fix = node->right;
-        transplant(rb, node, node->right);
+        transplant_subtree(rb, node, node->right);
     }else if(node->right){
         need_to_fix = node->left;
-        transplant(rb, node, node->left);
+        transplant_subtree(rb, node, node->left);
     }else{
         link successor = rb_minimum(node->right);
         changed_color = successor->color;
@@ -241,12 +242,12 @@ void rb_deletion(tree *rb, int n){
 
         //direct right node is not the successor 
         if(successor->parent != node) {
-            transplant(rb, successor, successor->right);
+            transplant_subtree(rb, successor, successor->right);
             successor->right = node->right;
             successor->right->parent = successor;
         }
 
-        transplant(rb, node, successor);
+        transplant_subtree(rb, node, successor);
         successor->left = node->left;
         node->left->parent = successor;
         //don't forget to change the color of successor to deleted node's color
@@ -268,7 +269,8 @@ void rb_deletion(tree *rb, int n){
 //2. there will be two adjacent red node if deleted node has two children
 //3. when move the succesor's subtree, it's black node may be shorter
 
-void rb_deletion_fix(tree *rb, link x){
+void rb_deletion_fix(tree *rb, link x)
+{
 
     /*enum color_type tmp_color = node->color;*/
     while(x != rb->root && x->color == BLACK){
@@ -328,7 +330,7 @@ void rb_deletion_fix(tree *rb, link x){
                     w->left->color = BLACK;
                     right_rotation(rb, x->parent);
 
-                    x->rb->root;
+                    x = rb->root;
                 }
             }
             
@@ -349,7 +351,7 @@ void pretty_print(link p, int indent)
                 /*printf(" ");*/
             /*}*/
         /*}*/
-        printf("%d\n", p->val);
+        printf("%d\t", p->val);
         printf("color is: %s\n", (p->color == 1? "black":"red"));
         /*printf("\n");*/
         if(p->left) {
