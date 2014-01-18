@@ -19,12 +19,12 @@ int main(int argc, char const *argv[])
     printf("%d\n", rb->root->val);
     pretty_print(rb->root, 1); 
 
-    /*printf("post order result is: \n");*/
-    /*pretty_print(rb->root, 10);*/
-
-    /*link min = rb_minimum(rb->root);*/
-    /*link max = rb_maximum(rb->root);*/
-
-    /*printf("min is: %d, max is:  %d\n", min->val, max->val);*/
-    
+    printf("------------------------------+++++++++++++++++++++\n");
+    for (int i = 0; i < 20; ++i)
+    {
+        rb_deletion(rb, a[i]);
+        printf("deleted number is: %d\n", a[i]); 
+        pretty_print(rb->root, 1);
+        printf("+++++++++++++++++++++\n");
+    }
 }
