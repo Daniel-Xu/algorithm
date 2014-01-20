@@ -9,6 +9,7 @@ int main(int argc, char const *argv[])
     int capacity = 10;
     int num = 3;
     int d[4][11];
+    int gem_detail[3] = {0, 0, 0};
 
     for (int i = 0; i <= num; ++i)
     {
@@ -21,7 +22,21 @@ int main(int argc, char const *argv[])
         }
     }    
 
+    int j = capacity;
+    for (int i = num; i > 0; --i)
+    {
+        if(d[i][j] > d[i-1][j]) {
+            gem_detail[i-1] = 1;
+            j = capacity-v[i-1];
+        }
+    }
+
     printf("%d\n", d[3][10]);
+
+    for (int i = 0; i < num; ++i)
+    {
+        printf("%d\n", gem_detail[i]);
+    }
 
     return 0;
 }
