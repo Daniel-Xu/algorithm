@@ -9,16 +9,28 @@ int main(int argc, char const *argv[])
     int capacity = 10;
     int num = 3;
     int d[4][11];
+    int f[11];
     int gem_detail[3] = {0, 0, 0};
 
+    //for (int i = 0; i <= num; ++i)
+    //{
+        //for (int j = 0; j <= capacity; ++j)
+        //{
+            //d[i][j] = i==0? 0: d[i-1][j];
+            //int yes_i = d[i-1][j-v[i-1]]+w[i-1];
+            //if(i > 0 && j >= v[i-1]) 
+                //d[i][j] = d[i][j]>yes_i? d[i][j]:yes_i;
+        //}
+    //}    
+    //space refactoring
     for (int i = 0; i <= num; ++i)
     {
-        for (int j = 0; j <= capacity; ++j)
+        //j < v[i-1] has nothing to do with the value of the bag
+        for(int j=capacity; j >= v[i-1]; --j)
         {
-            d[i][j] = i==0? 0: d[i-1][j];
-            int yes_i = d[i-1][j-v[i-1]]+w[i-1];
-            if(i > 0 && j >= v[i-1]) 
-                d[i][j] = d[i][j]>yes_i? d[i][j]:yes_i;
+            if(f[j] < f[j-v[i-1]]+w[i-1]){
+                f[j] = f[j-v[i-1]]+w[i-1];
+            }
         }
     }    
 
@@ -31,12 +43,13 @@ int main(int argc, char const *argv[])
         }
     }
 
-    printf("%d\n", d[3][10]);
+    //printf("%d\n", d[3][10]);
+    printf("%d\n", f[10]);
 
-    for (int i = 0; i < num; ++i)
-    {
-        printf("%d\n", gem_detail[i]);
-    }
+    //for (int i = 0; i < num; ++i)
+    //{
+        //printf("%d\n", gem_detail[i]);
+    //}
 
     return 0;
 }
