@@ -37,12 +37,39 @@ vs permutation(string src)
     return result;
 }
 
+vs permutation_insert(string src)
+{
+    vs result;
+
+    if(src == ""){
+        result.push_back("");
+        return result; 
+    }
+
+    string c = src.substr(0, 1);
+    string tmp = src;
+    vs res = permutation_insert(tmp.erase(0, 1));
+    for (int i = 0; i < res.size(); ++i)
+    {
+        for (int j = 0; j <= res[i].size();++j)
+        {
+            string u = res[i];
+            string p = u.insert(j, c);
+            result.push_back(p);
+        }
+    }
+    return result;
+}
+
+
+
+
 int main(int argc, char const *argv[])
 {
     
     vs result;
-    string a("abc");
-    result = permutation(a);
+    string a("a");
+    result = permutation_insert(a);
     for (int i = 0; i < result.size(); ++i)
     {
         cout << result[i] << endl;
