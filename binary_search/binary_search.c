@@ -1,18 +1,17 @@
 int binary_search(int a[], int start, int end, int num)
 {
-  if (start <= end) {
-    int mid = (start+end)/2;
-    if(a[mid] == num) {
-      // I don't know better method
-      exit(mid);
-    } else if(a[mid] < num){
-      binary_search(a, mid+1, end, num);
-    } else {
-      binary_search(a, start, mid-1, num);
-    }
-  }
 
-  return -1;
+  if(start > end) 
+      return -1;
+
+  int mid = (start+end)/2;
+  if(a[mid] == num) {
+      return mid;
+  } else if(a[mid] < num){
+      return binary_search(a, mid+1, end, num);
+  } else {
+      return binary_search(a, start, mid-1, num);
+  }
 }
 
 // loop
