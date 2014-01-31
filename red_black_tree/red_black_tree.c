@@ -354,7 +354,7 @@ void rb_deletion_fix(tree *rb, link x, link x_parent)
     }
     //if x's color is not black, just change it to black, and the black height will remain no violation
     if(x)
-    x->color = BLACK;
+        x->color = BLACK;
 }
 
 //pre order
