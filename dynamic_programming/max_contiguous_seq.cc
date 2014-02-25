@@ -20,9 +20,10 @@ int main(int argc, char const *argv[])
     //then we choose the max of M(1..n)
 
     for(int i = 1; i < sizeof(a)/4; i++) {
-        int tmp = runningSum + a[i];
-        if(tmp > a[i])
-            runningSum = tmp;
+        //int tmp = runningSum + a[i];
+        //we can optimize it
+        if(runningSum > 0)
+            runningSum += a[i];
         else {
             runningSum = a[i];
             j = i;
