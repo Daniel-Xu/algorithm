@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 
@@ -75,17 +76,26 @@ int maxHeight(Box a[], int n)
                 mh[i] = mh[j] + allBox[i].h;
         }
     }
+
+    int max = mh[0];
+    //now we need to find the max
+    for (int i = 1; i < n; ++i)
+    {
+        if(mh[i] > max)
+            max = mh[i];
+    }
+
+    return max;
 }
-
-
-
-
-
-
 
 
 int main(int argc, char const *argv[])
 {
+
+    Box a[] = { {4, 6, 7}, {1, 2, 3}, {4, 5, 6}, {10, 12, 32}};
+
+    cout << "max height is: " << maxHeight(a, 4) << endl;
+
     
     return 0;
 }
