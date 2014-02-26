@@ -52,10 +52,11 @@ int maxHeight(Box a[], int n)
 
     }
 
-    //descending order based on base area
-    qsort(allBox, sizeof(allBox), sizeof(allBox[0]), compare);
+    n = n * 3;
 
-    n = 3*n;
+    //descending order based on base area
+    qsort(allBox, n, sizeof(allBox[0]), compare);
+
     //initiate the mh array
     int mh[n];
     for (int i = 0; i < n; ++i)
@@ -78,6 +79,7 @@ int maxHeight(Box a[], int n)
     }
 
     int max = mh[0];
+    //int max =0 ;
     //now we need to find the max
     for (int i = 1; i < n; ++i)
     {
