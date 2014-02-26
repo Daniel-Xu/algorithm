@@ -59,6 +59,7 @@ int maxHeight(Box a[], int n)
 
     //initiate the mh array
     int mh[n];
+    int max = mh[0];
     for (int i = 0; i < n; ++i)
     {
         mh[i] = allBox[i].h;
@@ -76,13 +77,6 @@ int maxHeight(Box a[], int n)
               )
                 mh[i] = mh[j] + allBox[i].h;
         }
-    }
-
-    int max = mh[0];
-    //int max =0 ;
-    //now we need to find the max
-    for (int i = 1; i < n; ++i)
-    {
         if(mh[i] > max)
             max = mh[i];
     }
